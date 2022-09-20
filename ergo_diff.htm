@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Ergo difficulty monitor</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simplebar@5.3.3/dist/simplebar.css">
+        <link rel="stylesheet" type="text/css" href="./css/styles.css">
+
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@3.3.0/dist/chart.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simplebar@5.3.3/dist/simplebar.min.js"></script>
+        <!-- moe 16.5.2022: disabled, was too old -- script type="text/javascript" src="./scripts/ergoDiffPrecache.js"></script-->
+        <script type="text/javascript" src="./scripts/ergoDiffTools.js"></script>
+        
+        <meta name="viewport" content="width=700px, initial-scale=1.5, maximum-scale=3, minimum-scale=0.6">
+    </head>
+    <body>
+        <div id="spacer"></div>        <div id="centered">
+            <div id="header">
+                <br/>
+                <a href="https://ergoplatform.org/" alt="Go to ergo website">
+                    <img src="img/logotype_black.svg" style="width: 150px" alt="Ergo logo"></img>
+                </a>
+                <br/>
+                <h1>
+                    Difficulty & Epoch monitor<br/>
+                </h1>
+                <div id="progress"></div>
+                <hr style="margin-top:0px"/>
+                <br/>
+            </div>
+            <div id="results">                <div class="label">Current block height: </div>
+                <div id="currentHeight" class="inline">fetching...</div>
+
+                <div class="label">Current difficulty: </div>
+                <div id="currentDiff" class="inline">fetching...</div>
+                
+                <div class="label" data-toggle="tooltip" title="Average TTF of last 1024 and last 64 blocks">Time to find a block: </div>
+                <div id="ttf" class="inline">fetching...</div>
+
+                <div class="label">Next epoch starts at block: </div>
+                <div id="nextEpochStart" class="inline">fetching...</div>
+
+                <div class="label">Blocks remaining in current epoch: </div>
+                <div id="remainingBlocks" class="inline">fetching...</div>
+                
+                <div class="label" data-toggle="tooltip" title="Remaining time based on last 64 blocks' TTF.">Time until next epoch: </div>
+                <div id="remainingTime" class="inline">fetching...</div>
+                
+                <div class="label" data-toggle="tooltip" title="Estimated using linear regression on difficulty data of the last 7 epochs and the difficulty required to get to 120s block time.">Next estimated difficulty (experimental): </div>
+                <div id="estDifficulty" class="inline">fetching...</div> <span data-toggle="tooltip" title="Recalculate" data-placement="right" style="display:none" id="refreshEstdDifficulty" onClick="CalculateDifficulty(true);">🔄</span>
+                
+                <div class="label">&nbsp;</div>
+                <div class="label" id="chartLabel">Chart:</div> <span data-toggle="tooltip" title="Toggle chart type" data-placement="right" style="display:none" id="toggleChartType" onClick="ToggleChartType();">📈</span>
+                <div id="spring">
+                    <canvas id="chart" class="jsChartDetail"></canvas>
+                </div>
+                <div id="chartInfo">Loading chart data...</div>            </div>
+            <div id="footer">
+                <hr/>
+                Version 1.16 (16.05.2022): History chart now displays last 32 epochs using live data.<br/>
+            </div>        </div>
+        <script>
+            UpdateData();
+            
+            $( window ).resize(function() {
+              UpdateUI();
+            });
+            
+            $(document).ready(function(){
+              $('[data-toggle="tooltip"]').tooltip();
+            });
+            
+            new SimpleBar($('#centered')[0], { autoHide: false });
+        </script>
+    </body>
+</html>
