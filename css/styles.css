@@ -1,0 +1,121 @@
+html
+{
+    width: 100%; 
+    height: 100%; 
+}
+
+body
+{
+    width: 100%; 
+    height: 100%; 
+    
+    background-color:#fff;
+    
+    overflow:hidden;
+    color:#000;
+    font: 11pt Verdana;
+}
+
+#spacer
+{
+    height:20px;
+}
+
+#centered
+{
+    margin: auto;
+
+    width: 700px;
+    height: 95%;
+
+    border-radius: 10px;
+    border: solid 1px #eee;
+    
+    text-align:center;
+    
+    -webkit-box-shadow: 10px 10px 29px #292929;	/* webkit browser*/ -moz-box-shadow: 10px 10px 29px #292929;	/* firefox */ box-shadow: 10px 10px 29px #292929;
+}
+
+#results
+{
+    text-align:left;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+#footer
+{
+    font: 8pt Verdana;
+}
+
+
+/**** ERGO DIFF TOOLS ****/
+
+.label
+{
+    font-weight:bold;
+    width:300px;
+    clear:both;
+    white-space: nowrap;
+}
+
+.inline{
+    padding-bottom:3px;
+}
+
+#progress
+{
+    height:3px;
+    width:100%;
+    background-color: #ff4221;
+}
+
+#estDifficulty
+{
+    float:left;
+    font-style:italic;
+}
+
+#refreshEstdDifficulty
+{
+    float:left;
+    font-weight:bold;
+    cursor:pointer;
+    padding-left:5px;
+}
+
+#chartLabel
+{
+    float:left;
+    font-style:italic;
+    width:unset;
+}
+
+#toggleChartType
+{
+    float:left;
+    font-weight:bold;
+    cursor:pointer;
+    padding-left:5px;
+    float: right;
+}
+
+#chart
+{
+    width:100%;
+    min-height:300px;
+    height:300px;
+    clear:both;
+}
+
+#chartInfo
+{
+    text-align:center;
+    font: 8pt Verdana;
+    color:#aaa;
+}
+
+#spring
+{
+    clear:both;
+}
