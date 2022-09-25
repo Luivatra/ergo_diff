@@ -44,7 +44,7 @@ function UpdateData()
             currentDifficulty = stats[0].miningCost.difficulty;
             averageTTF = stats[0].blockSummary.averageMiningTime / 1000;
             
-            var blocksThisEpoch = currentBlock % epochSize;
+            var blocksThisEpoch = (currentBlock) % epochSize;
             remainingBlocksThisEpoch = epochSize - blocksThisEpoch;     // diff adjusts every epoch
             nextEpochStart = currentBlock + remainingBlocksThisEpoch;
             remainingTimeThisEpoch = remainingBlocksThisEpoch * averageTTF;
@@ -258,9 +258,11 @@ function CalculateDifficulty(force)
             epoch4 = ergExplorerBlockAPI + (start+epochSize*3),
             epoch3 = ergExplorerBlockAPI + (start+epochSize*4),
             epoch2 = ergExplorerBlockAPI + (start+epochSize*5),
-            epoch1 = ergExplorerBlockAPI + (start+epochSize*6);
+            epoch1 = ergExplorerBlockAPI + (start+epochSize*6),
+            epoch0 = ergExplorerBlockAPI + (start+epochSize*7);
             
         // Need to read the epochs in serial. If we do it in parallel cloudflare DDOS protection kicks in...
+        $.getJSON(epoch0, function(z) {
         $.getJSON(epoch8, function(x) {
         $.getJSON(epoch7, function(a) {
             $( "#estDifficulty" ).text("14%");
@@ -281,6 +283,7 @@ function CalculateDifficulty(force)
                                     // This is probably not exact how the algo really works. I will fine tune it later...
                                     // To prevent overflows we use GH/s
                                     var headers = [];
+                                    headers.push( z.items[0] );
                                     headers.push( g.items[0] );
                                     headers.push( f.items[0] );
                                     headers.push( e.items[0] );
@@ -339,7 +342,7 @@ function CalculateDifficulty(force)
                     })
                 })
             })
-        })});
+        })})});
     }
 }
 
