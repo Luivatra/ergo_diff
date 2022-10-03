@@ -4,7 +4,7 @@
     This code can freely be used. Please credit the author.
 ***********************************************************/
 
-const epochSize = 1024;
+const epochSize = 128;
 const desiredBlockTime = 120;       //seconds
 
 const PrecisionConstant = 1000000000
@@ -208,7 +208,8 @@ function calculate(previousHeaders) {
           const diff = BigInt(end.difficulty) * BigInt(desiredBlockTime*1000) * BigInt(epochSize) / BigInt(end.timestamp - start.timestamp)
           return [BigInt(end.height), diff]
     })
-    return interpolate(data) 
+    const rawPredictedDiff = Number(interpolate(data))
+    return Math.max(Math.min(rawPredictedDiff,currentDifficulty*1.5),currentDifficulty*0.5)
   }
 
   //y = a + bx
@@ -314,7 +315,7 @@ function CalculateDifficulty(force)
                                     // var lr = findLineByLeastSquares(times, diffs);
                                     // var diff = lr[1][7];
 
-                                    var diff = Number(calculate(headers)/BigInt(PrecisionConstant))
+                                    var diff = calculate(headers)/PrecisionConstant
                                     
                                     if( diff>1000)
                                     { 
