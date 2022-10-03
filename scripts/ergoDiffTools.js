@@ -212,6 +212,10 @@ function calculate(previousHeaders) {
     return Math.max(Math.min(rawPredictedDiff,currentDifficulty*1.5),currentDifficulty*0.5)
   }
 
+function bitcoinCalculate(start, end) {
+    return Number(BigInt(end.difficulty) * BigInt(desiredBlockTime*1000) * BigInt(epochSize) / BigInt(end.timestamp - start.timestamp))
+}
+
   //y = a + bx
 function interpolate(data) {
     const size = BigInt(data.length)
@@ -231,7 +235,7 @@ function interpolate(data) {
       const a = (ySum * BigInt(PrecisionConstant) - b * xSum) / size / BigInt(PrecisionConstant)
 
       const point = data[data.length-1][0] + BigInt(epochSize)
-      return a + b * point / BigInt(PrecisionConstant)
+      return BigInt(a + b * point / BigInt(PrecisionConstant))
     }
   }
 
@@ -315,7 +319,10 @@ function CalculateDifficulty(force)
                                     // var lr = findLineByLeastSquares(times, diffs);
                                     // var diff = lr[1][7];
 
-                                    var diff = calculate(headers)/PrecisionConstant
+                                    var diff = calculate(headers) 
+                                    var bitcoinDiff = bitcoinCalculate(headers[7],headers[8])
+                                    diff = (diff+bitcoinDiff)/2
+                                    diff = Math.max(Math.min(diff,currentDifficulty*1.5),currentDifficulty*0.5)/PrecisionConstant
                                     
                                     if( diff>1000)
                                     { 
